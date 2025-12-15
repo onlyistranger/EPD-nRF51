@@ -96,7 +96,7 @@ static ble_uuid_t                        m_adv_uuids[] = {{BLE_UUID_EPD_SVC, \
                                                            EPD_SVC_UUID_TYPE}};         /**< Universally unique service identifier. */
 
 BLE_EPD_DEF(m_epd);                                                                     /**< Structure to identify the EPD Service. */
-static uint32_t                          m_timestamp = 1735689600;                      /**< Current timestamp. */
+static uint32_t                          m_timestamp = 1765806317;                      /**< Current timestamp. */
 APP_TIMER_DEF(m_clock_timer_id);                                                        /**< Clock timer. */
 static nrf_drv_wdt_channel_id            m_wdt_channel_id;
 static uint32_t                          m_wdt_last_feed_time = 0;

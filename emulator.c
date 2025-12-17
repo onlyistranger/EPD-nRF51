@@ -8,8 +8,8 @@
 
 #include "GUI.h"
 
-#define BITMAP_WIDTH 400
-#define BITMAP_HEIGHT 300
+#define BITMAP_WIDTH 128
+#define BITMAP_HEIGHT 250
 #define WINDOW_WIDTH 450
 #define WINDOW_HEIGHT 380
 
@@ -17,7 +17,7 @@
 HINSTANCE g_hInstance;
 HWND g_hwnd;
 HDC g_paintHDC = NULL;
-display_mode_t g_display_mode = MODE_CALENDAR;  // Default to calendar mode
+display_mode_t g_display_mode = MODE_CLOCK;  // Default to calendar mode
 BOOL g_bwr_mode = TRUE;                         // Default to BWR mode
 uint8_t g_week_start = 0;                       // Default week start (0=Sunday, 1=Monday, etc.)
 time_t g_display_time;

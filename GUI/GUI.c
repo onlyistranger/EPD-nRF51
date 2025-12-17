@@ -442,6 +442,45 @@ static void DrawCalDate(Adafruit_GFX *gfx, int16_t x, int16_t y, tm_t *tm)
         Draw7Number(gfx, tm->tm_mday, x + 16, y - 72 - 8, 3, GFX_BLACK, GFX_WHITE, 1);
 }
 static void DrawClock(Adafruit_GFX* gfx, tm_t* tm, struct Lunar_Date* Lunar, gui_data_t* data) {
+    if (data->width < 300) {
+        GFX_setCursor(gfx, 0, 14);
+        GFX_printf_styled(gfx, GFX_RED, GFX_WHITE, u8g2_font_helvB14_tn, "%d-%2d-%2d", tm->tm_year + YEAR0,
+                          tm->tm_mon + 1, tm->tm_mday);
+        GFX_setCursor(gfx, 100, 14);
+        GFX_setFont(gfx, u8g2_font_wqy12_t_lunar);
+
+        GFX_printf(gfx, "星期%s  %s%s%s", Lunar_DayString[tm->tm_wday], Lunar_MonthLeapString[Lunar->IsLeap],
+                   Lunar_MonthString[Lunar->Month], Lunar_DateString[Lunar->Date]);
+
+        DrawTime(gfx, tm, 32, 20, 4, 2);
+
+        char ssid[5] = {0};
+        int16_t ssid_len = strlen(data->ssid);
+        memcpy(ssid, &data->ssid[ssid_len - 4], 4);
+        GFX_setCursor(gfx, data->height - 95, 120);
+        GFX_setFont(gfx, u8g2_font_wqy9_t_lunar);
+        GFX_printf(gfx, "[%s]", ssid);
+        GFX_setCursor(gfx, 0, 120);
+
+        GFX_setFont(gfx, u8g2_font_wqy12_t_lunar);
+        GFX_printf(gfx, "%s%s%s年", Lunar_StemStrig[LUNAR_GetStem(Lunar)], Lunar_BranchStrig[LUNAR_GetBranch(Lunar)],
+                   Lunar_ZodiacString[LUNAR_GetZodiac(Lunar)]);
+
+        uint8_t day = 0;
+        uint8_t JQday = GetJieQiStr(tm->tm_year + YEAR0, tm->tm_mon + 1, tm->tm_mday, &day);
+        GFX_setCursor(gfx, 64 + 8, 120);
+        if (day == 0) {
+            GFX_printf(gfx, "%s", JieQiStr[JQday % 24]);
+        } else {
+            GFX_printf(gfx, "离%s%d天", JieQiStr[JQday % 24], day);
+        }
+        DrawBattery213(gfx, 224, 120 - 9, 0, data->voltage);
+        GFX_setCursor(gfx, 228, 14);
+        GFX_printf(gfx, "%d℃", data->temperature);
+
+        return;
+    }
+
     uint8_t padding = data->height > 300 ? 100 : 40;
     GFX_setCursor(gfx, padding, 36);
     GFX_printf_styled(gfx, GFX_RED, GFX_WHITE, u8g2_font_helvB18_tn, "%d", tm->tm_year + YEAR0);

@@ -225,9 +225,9 @@ void EPD_LED_ON(void) {
 
 void EPD_LED_OFF(void) {
     if (EPD_LED_PIN != 0xFF) digitalWrite(EPD_LED_PIN, HIGH);
-    digitalWrite(16, HIGH);
-    digitalWrite(17, HIGH);
-    digitalWrite(18, HIGH);
+    // digitalWrite(16, HIGH);
+    // digitalWrite(17, HIGH);
+    // digitalWrite(18, HIGH);
 }
 
 void EPD_LED_Toggle(void) {

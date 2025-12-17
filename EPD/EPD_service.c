@@ -126,6 +126,29 @@ static void epd_service_on_write(ble_epd_t* p_epd, uint8_t* p_data, uint16_t len
             EPD_GPIO_Init();
             break;
 
+        case EPD_CMD_CFG_FULL:
+            if (length < 8) return;
+
+            p_epd->config.mosi_pin = p_data[1];
+            p_epd->config.sclk_pin = p_data[2];
+            p_epd->config.cs_pin = p_data[3];
+            p_epd->config.dc_pin = p_data[4];
+            p_epd->config.rst_pin = p_data[5];
+            p_epd->config.busy_pin = p_data[6];
+            p_epd->config.bs_pin = p_data[7];
+            if (length > 8) p_epd->config.model_id = p_data[8];
+            if (length > 9) p_epd->config.wakeup_pin = p_data[9];
+            if (length > 10) p_epd->config.led_pin = p_data[10];
+            if (length > 11) p_epd->config.en_pin = p_data[11];
+            if (length > 12) p_epd->config.display_mode = p_data[12];
+            if (length > 13) p_epd->config.week_start = p_data[13];
+            epd_config_write(&p_epd->config);
+
+            EPD_GPIO_Uninit();
+            EPD_GPIO_Load(&p_epd->config);
+            EPD_GPIO_Init();
+            break;
+
         case EPD_CMD_INIT:
             p_epd->epd = epd_init((epd_model_id_t)(length > 1 ? p_data[1] : p_epd->config.model_id));
             if (p_epd->epd->id != p_epd->config.model_id) {

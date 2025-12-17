@@ -78,6 +78,9 @@ enum EPD_CMDS {
     EPD_CMD_SYS_RESET = 0x91,  /**< MCU reset */
     EPD_CMD_SYS_SLEEP = 0x92,  /**< MCU enter sleep mode */
     EPD_CMD_CFG_ERASE = 0x99,  /**< Erase config and reset */
+
+    EPD_CMD_CFG_FULL = 0xA0,
+    
 };
 
 /**@brief EPD Service structure.

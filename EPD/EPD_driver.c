@@ -212,9 +212,9 @@ void EPD_WaitBusy(uint32_t value, uint16_t timeout) {
     NRF_LOG_DEBUG("[EPD]: busy release\n");
 
     // restore led status
-    if (led_status == LOW)
-        EPD_LED_ON();
-    else
+    // if (led_status == LOW)
+    //     EPD_LED_ON();
+    // else
         EPD_LED_OFF();
 }
 

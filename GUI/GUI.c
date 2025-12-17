@@ -449,8 +449,10 @@ static void DrawClock(Adafruit_GFX* gfx, tm_t* tm, struct Lunar_Date* Lunar, gui
         GFX_setCursor(gfx, 100, 14);
         GFX_setFont(gfx, u8g2_font_wqy12_t_lunar);
 
-        GFX_printf(gfx, "星期%s  %s%s%s", Lunar_DayString[tm->tm_wday], Lunar_MonthLeapString[Lunar->IsLeap],
-                   Lunar_MonthString[Lunar->Month], Lunar_DateString[Lunar->Date]);
+        GFX_printf(gfx, "星期%s", Lunar_DayString[tm->tm_wday]);
+        GFX_setCursor(gfx, 160, 14);
+        GFX_printf(gfx, "%s%s%s", Lunar_MonthLeapString[Lunar->IsLeap], Lunar_MonthString[Lunar->Month],
+                Lunar_DateString[Lunar->Date]);
 
         DrawTime(gfx, tm, 32, 20, 4, 2);
 

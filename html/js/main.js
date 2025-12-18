@@ -28,6 +28,8 @@ const canvasSizes = [
   { name: '1.54_200_200', width: 200, height: 200 },
   { name: '2.13_212_104', width: 212, height: 104 },
   { name: '2.13_250_122', width: 250, height: 122 },
+  { name: '2.13_250_128', width: 250, height: 128 },
+  { name: '2.13_128_250', width: 128, height: 250 },
   { name: '2.66_296_152', width: 296, height: 152 },
   { name: '2.9_296_128', width: 296, height: 128 },
   { name: '2.9_384_168', width: 384, height: 168 },

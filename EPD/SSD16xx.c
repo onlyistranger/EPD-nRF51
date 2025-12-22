@@ -53,7 +53,7 @@ void SSD16xx_Init(epd_model_t* epd) {
 }
 
 static void SSD16xx_Refresh(epd_model_t* epd) {
-    EPD_Write(SSD16xx_DISP_CTRL1, epd->color == BWR ? 0x80 : 0x40, 0x00);
+    EPD_Write(SSD16xx_DISP_CTRL1, epd->color == EPD_COLOR_BWR ? 0x80 : 0x40, 0x00);
 
     NRF_LOG_DEBUG("[EPD]: refresh begin\n");
     NRF_LOG_DEBUG("[EPD]: temperature: %d\n", SSD16xx_Read_Temp(epd));
@@ -93,7 +93,7 @@ void SSD16xx_Write_Image(epd_model_t* epd, uint8_t* black, uint8_t* color, uint1
     EPD_WriteCmd(SSD16xx_WRITE_RAM2);
     for (uint16_t i = 0; i < h; i++) {
         for (uint16_t j = 0; j < w / 8; j++) {
-            if (epd->color == BWR)
+            if (epd->color == EPD_COLOR_BWR)
                 EPD_WriteByte(color ? color[j + i * wb] : 0xFF);
             else
                 EPD_WriteByte(black[j + i * wb]);
@@ -105,7 +105,7 @@ void SSD16xx_Write_Ram(epd_model_t* epd, uint8_t cfg, uint8_t* data, uint8_t len
     bool begin = (cfg >> 4) == 0x00;
     bool black = (cfg & 0x0F) == 0x0F;
     if (begin) {
-        if (epd->color == BWR)
+        if (epd->color == EPD_COLOR_BWR)
             EPD_WriteCmd(black ? SSD16xx_WRITE_RAM1 : SSD16xx_WRITE_RAM2);
         else
             EPD_WriteCmd(SSD16xx_WRITE_RAM1);
@@ -141,10 +141,10 @@ static epd_driver_t epd_drv_ssd1677 = {
 };
 
 // SSD1619 400x300 Black/White/Red
-const epd_model_t epd_ssd1619_420_bwr = {EPD_SSD1619_420_BWR, BWR, &epd_drv_ssd1619, 400, 300};
+const epd_model_t epd_ssd1619_420_bwr = {EPD_SSD1619_420_BWR, EPD_COLOR_BWR, &epd_drv_ssd1619, 400, 300};
 // SSD1619 400x300 Black/White
-const epd_model_t epd_ssd1619_420_bw = {EPD_SSD1619_420_BW, BW, &epd_drv_ssd1619, 400, 300};
+const epd_model_t epd_ssd1619_420_bw = {EPD_SSD1619_420_BW, EPD_COLOR_BW, &epd_drv_ssd1619, 400, 300};
 // SSD1677 880x528 Black/White/Red
-const epd_model_t epd_ssd1677_750_bwr = {EPD_SSD1677_750_HD_BWR, BWR, &epd_drv_ssd1677, 880, 528};
+const epd_model_t epd_ssd1677_750_bwr = {EPD_SSD1677_750_HD_BWR, EPD_COLOR_BWR, &epd_drv_ssd1677, 880, 528};
 // SSD1677 880x528 Black/White
-const epd_model_t epd_ssd1677_750_bw = {EPD_SSD1677_750_HD_BW, BW, &epd_drv_ssd1677, 880, 528};
+const epd_model_t epd_ssd1677_750_bw = {EPD_SSD1677_750_HD_BW, EPD_COLOR_BW, &epd_drv_ssd1677, 880, 528};

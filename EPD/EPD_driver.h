@@ -121,9 +121,9 @@ enum {
 };
 
 typedef enum {
-    BW = 1,
-    BWR = 2,
-    BWRY = 3,
+    EPD_COLOR_BW = 1,
+    EPD_COLOR_BWR = 2,
+    EPD_COLOR_BWRY = 3,
 } epd_color_t;
 
 // Do not change the existing IDs!

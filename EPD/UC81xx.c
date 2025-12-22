@@ -75,8 +75,8 @@ void UC81xx_Init(epd_model_t* epd) {
 
     //    UC81xx_Dump_OTP(epd);
 
-    EPD_Write(UC81xx_PSR, epd->color == BWR ? 0x0F : 0x1F);
-    EPD_Write(UC81xx_CDI, epd->color == BWR ? 0x77 : 0x97);
+    EPD_Write(UC81xx_PSR, epd->color == EPD_COLOR_BWR ? 0x0F : 0x1F);
+    EPD_Write(UC81xx_CDI, epd->color == EPD_COLOR_BWR ? 0x77 : 0x97);
 }
 
 void UC8159_Init(epd_model_t* epd) {
@@ -186,7 +186,7 @@ void UC81xx_Write_Image(epd_model_t* epd, uint8_t* black, uint8_t* color, uint16
 
     EPD_WriteCmd(UC81xx_PTIN);  // partial in
     _setPartialRamArea(epd, x, y, w, h);
-    if (epd->color == BWR) {
+    if (epd->color == EPD_COLOR_BWR) {
         EPD_WriteCmd(UC81xx_DTM1);
         for (uint16_t i = 0; i < h; i++) {
             for (uint16_t j = 0; j < w / 8; j++) EPD_WriteByte(black ? black[j + i * wb] : 0xFF);
@@ -195,7 +195,7 @@ void UC81xx_Write_Image(epd_model_t* epd, uint8_t* black, uint8_t* color, uint16
     EPD_WriteCmd(UC81xx_DTM2);
     for (uint16_t i = 0; i < h; i++) {
         for (uint16_t j = 0; j < w / 8; j++) {
-            if (epd->color == BWR)
+            if (epd->color == EPD_COLOR_BWR)
                 EPD_WriteByte(color ? color[j + i * wb] : 0xFF);
             else
                 EPD_WriteByte(black[j + i * wb]);
@@ -273,7 +273,7 @@ void UC81xx_Write_Ram(epd_model_t* epd, uint8_t cfg, uint8_t* data, uint8_t len)
     bool begin = (cfg >> 4) == 0x00;
     bool black = (cfg & 0x0F) == 0x0F;
     if (begin) {
-        if (epd->color == BWR)
+        if (epd->color == EPD_COLOR_BWR)
             EPD_WriteCmd(black ? UC81xx_DTM1 : UC81xx_DTM2);
         else
             EPD_WriteCmd(UC81xx_DTM2);
@@ -351,20 +351,20 @@ static epd_driver_t epd_drv_jd79665 = {
 };
 
 // UC8176 400x300 Black/White
-const epd_model_t epd_uc8176_420_bw = {EPD_UC8176_420_BW, BW, &epd_drv_uc8176, 400, 300};
+const epd_model_t epd_uc8176_420_bw = {EPD_UC8176_420_BW, EPD_COLOR_BW, &epd_drv_uc8176, 400, 300};
 // UC8176 400x300 Black/White/Red
-const epd_model_t epd_uc8176_420_bwr = {EPD_UC8176_420_BWR, BWR, &epd_drv_uc8176, 400, 300};
+const epd_model_t epd_uc8176_420_bwr = {EPD_UC8176_420_BWR, EPD_COLOR_BWR, &epd_drv_uc8176, 400, 300};
 // UC8159 640x384 Black/White
-const epd_model_t epd_uc8159_750_bw = {EPD_UC8159_750_LOW_BW, BW, &epd_drv_uc8159, 640, 384};
+const epd_model_t epd_uc8159_750_bw = {EPD_UC8159_750_LOW_BW, EPD_COLOR_BW, &epd_drv_uc8159, 640, 384};
 // UC8159 640x384 Black/White/Red
-const epd_model_t epd_uc8159_750_bwr = {EPD_UC8159_750_LOW_BWR, BWR, &epd_drv_uc8159, 640, 384};
+const epd_model_t epd_uc8159_750_bwr = {EPD_UC8159_750_LOW_BWR, EPD_COLOR_BWR, &epd_drv_uc8159, 640, 384};
 // UC8179 800x480 Black/White/Red
-const epd_model_t epd_uc8179_750_bw = {EPD_UC8179_750_BW, BW, &epd_drv_uc8179, 800, 480};
+const epd_model_t epd_uc8179_750_bw = {EPD_UC8179_750_BW, EPD_COLOR_BW, &epd_drv_uc8179, 800, 480};
 // UC8179 800x480 Black/White/Red
-const epd_model_t epd_uc8179_750_bwr = {EPD_UC8179_750_BWR, BWR, &epd_drv_uc8179, 800, 480};
+const epd_model_t epd_uc8179_750_bwr = {EPD_UC8179_750_BWR, EPD_COLOR_BWR, &epd_drv_uc8179, 800, 480};
 // JD79668 400x300 Black/White/Red/Yellow
-const epd_model_t epd_jd79668_420_bwry = {EPD_JD79668_420_BWRY, BWRY, &epd_drv_jd79668, 400, 300};
+const epd_model_t epd_jd79668_420_bwry = {EPD_JD79668_420_BWRY, EPD_COLOR_BWRY, &epd_drv_jd79668, 400, 300};
 // JD79665 800x480 Black/White/Red/Yellow
-const epd_model_t epd_jd79665_750_bwry = {EPD_JD79665_750_BWRY, BWRY, &epd_drv_jd79665, 800, 480};
+const epd_model_t epd_jd79665_750_bwry = {EPD_JD79665_750_BWRY, EPD_COLOR_BWRY, &epd_drv_jd79665, 800, 480};
 // JD79665 648x480 Black/White/Red/Yellow
-const epd_model_t epd_jd79665_583_bwry = {EPD_JD79665_583_BWRY, BWRY, &epd_drv_jd79665, 648, 480};
+const epd_model_t epd_jd79665_583_bwry = {EPD_JD79665_583_BWRY, EPD_COLOR_BWRY, &epd_drv_jd79665, 648, 480};

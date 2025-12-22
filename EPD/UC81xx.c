@@ -9,10 +9,8 @@ static void UC81xx_PowerOn(epd_model_t* epd) {
 }
 
 static void UC81xx_PowerOff(epd_model_t* epd) {
-    if (epd->drv->ic == EPD_DRIVER_IC_JD79665)
-        EPD_Write(UC81xx_POF, 0x00);
-    else
-        EPD_WriteCmd(UC81xx_POF);
+    EPD_WriteCmd(UC81xx_POF);
+    if (epd->color == EPD_COLOR_BWRY) EPD_WriteByte(0x00);
     UC81xx_WaitBusy(200);
 }
 
@@ -39,25 +37,20 @@ static void _setPartialRamArea(epd_model_t* epd, uint16_t x, uint16_t y, uint16_
 
 void UC81xx_Refresh(epd_model_t* epd) {
     NRF_LOG_DEBUG("[EPD]: refresh begin\n");
-    if (epd->drv->ic != EPD_DRIVER_IC_JD79668 && epd->drv->ic != EPD_DRIVER_IC_JD79665) UC81xx_PowerOn(epd);
 
     _setPartialRamArea(epd, 0, 0, epd->width, epd->height);
 
     EPD_WriteCmd(UC81xx_DRF);
-    if (epd->drv->ic == EPD_DRIVER_IC_JD79668 || epd->drv->ic == EPD_DRIVER_IC_JD79665) {
-        EPD_WriteByte(0x00);
-    }
+    if (epd->color == EPD_COLOR_BWRY) EPD_WriteByte(0x00);
     delay(100);
     UC81xx_WaitBusy(30000);
 
-    if (epd->drv->ic != EPD_DRIVER_IC_JD79668 && epd->drv->ic != EPD_DRIVER_IC_JD79665) UC81xx_PowerOff(epd);
     NRF_LOG_DEBUG("[EPD]: refresh end\n");
 }
 
 void UC81xx_Dump_OTP(epd_model_t* epd) {
     uint8_t data[128];
 
-    UC81xx_PowerOn(epd);
     EPD_Write(UC81xx_ROTP, 0x00);
 
     NRF_LOG_DEBUG("=== OTP BEGIN ===\n");
@@ -66,8 +59,6 @@ void UC81xx_Dump_OTP(epd_model_t* epd) {
         NRF_LOG_HEXDUMP_DEBUG(data, sizeof(data));
     }
     NRF_LOG_DEBUG("=== OTP END ===\n");
-
-    UC81xx_PowerOff(epd);
 }
 
 void UC81xx_Init(epd_model_t* epd) {
@@ -77,6 +68,8 @@ void UC81xx_Init(epd_model_t* epd) {
 
     EPD_Write(UC81xx_PSR, epd->color == EPD_COLOR_BWR ? 0x0F : 0x1F);
     EPD_Write(UC81xx_CDI, epd->color == EPD_COLOR_BWR ? 0x77 : 0x97);
+
+    UC81xx_PowerOn(epd);
 }
 
 void UC8159_Init(epd_model_t* epd) {
@@ -92,6 +85,8 @@ void UC8159_Init(epd_model_t* epd) {
     EPD_Write(0x65, 0x00);  // FLASH CONTROL
     EPD_Write(0xe5, 0x03);  // FLASH MODE
     EPD_Write(UC81xx_TRES, epd->width >> 8, epd->width & 0xff, epd->height >> 8, epd->height & 0xff);
+
+    UC81xx_PowerOn(epd);
 }
 
 void JD79668_Init(epd_model_t* epd) {

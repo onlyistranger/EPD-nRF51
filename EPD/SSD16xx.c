@@ -64,7 +64,6 @@ static void SSD16xx_Refresh(epd_model_t* epd) {
     //    SSD16xx_Dump_LUT();
 
     _setPartialRamArea(epd, 0, 0, epd->width, epd->height);  // DO NOT REMOVE!
-    SSD16xx_Update(0x83);                                    // power off
 }
 
 void SSD16xx_Clear(epd_model_t* epd, bool refresh) {

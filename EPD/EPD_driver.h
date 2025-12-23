@@ -121,9 +121,9 @@ enum {
 };
 
 typedef enum {
-    BW = 1,
-    BWR = 2,
-    BWRY = 3,
+    EPD_COLOR_BW = 1,
+    EPD_COLOR_BWR = 2,
+    EPD_COLOR_BWRY = 3,
 } epd_color_t;
 
 // Do not change the existing IDs!
@@ -139,9 +139,10 @@ typedef enum {
     EPD_UC8159_750_LOW_BWR = 9,
     EPD_SSD1677_750_HD_BW = 10,
     EPD_SSD1677_750_HD_BWR = 11,
-    EPD_JD79668_750_BWRY = 12,
-    EPD_SSD1619_213_BWR = 13,
-    EPD_SSD1619_213_BW = 14,
+    EPD_JD79665_750_BWRY = 12,
+    EPD_JD79665_583_BWRY = 13,
+    EPD_SSD1619_213_BWR = 14,
+    EPD_SSD1619_213_BW = 15,
 } epd_model_id_t;
 
 #define ALI213_OFFSET_X 8     //2020屏
